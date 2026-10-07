@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#0c1015">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tech Tree">
+<title>Tech Tree Designer</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="app">
+<header>
+<button id="menuBtn" class="mobile-only" aria-label="Open branches">☰</button>
+<h1>Tech Tree Designer</h1>
+<button id="newN">+ Node</button><button id="newU">+ Undefined</button><button id="conn">Connect</button><button id="del">Delete</button>
+<span style="width:8px"></span><button id="zm">−</button><span id="zl" class="zoom">100%</span><button id="zp">+</button><button id="fit">Fit</button><button id="z100">100%</button>
+<span style="width:8px"></span><button id="save">Save JSON</button><button id="load">Load JSON</button><input id="file" type="file" accept=".json" style="display:none">
+<div class="sp"></div><button id="editBtn" class="mobile-only">Edit</button><span id="status" class="status">Ready</span>
+</header>
+<aside id="left"><div class="sec"><h2>Branches</h2><div class="row"><input id="bn" placeholder="New branch"><input id="bc" class="color" type="color" value="#7aa2f7"><button id="addB">Add</button></div><div class="small" style="margin:8px 0">Branch colors tint nodes and dependency lines.</div><div id="branches"></div></div><div class="sec"><h2>Undefined Nodes</h2><div class="small" style="margin-bottom:8px">Drag any idea onto the canvas when you are ready to commit it.</div><div id="undefs"></div></div></aside>
+<main id="wrap"><div id="scale"><div id="ws"><svg id="edges"></svg></div></div></main>
+<aside id="right"><div class="sec"><h2>Selected Node</h2><div id="none" class="small">Select a node to edit it.</div><div id="ed" style="display:none"><div class="field"><label>Name</label><input id="ename"></div><div class="field"><label>Branch</label><select id="ebr"></select></div><div class="field"><label>Epoch</label><input id="eep"></div><div class="field"><label>Type</label><select id="etype"><option>Technology</option><option>Unit</option><option>Building</option><option>Resource</option><option>Upgrade</option><option>Epoch</option><option>Other</option></select></div><div class="field"><label>Cost / Requirement</label><input id="ecost"></div><div class="field"><label>Notes</label><textarea id="enotes"></textarea></div><div class="field"><label>Dependencies</label><div id="deps"></div></div><button id="apply">Apply</button> <button id="moveU">Move to Undefined</button></div></div><div class="sec"><h2>Controls</h2><div class="small">Drag nodes to arrange them. Mouse-wheel or pinch to zoom. Click Connect, then prerequisite → dependent. Branch colors are editable. Data autosaves on this device.</div></div></aside>
+</div>
+<script src="./app.js"></script>
+</body>
+</html>
