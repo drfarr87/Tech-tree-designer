@@ -1,6 +1,5 @@
 {
-  "schemaVersion": 6,
-  "zoom": 1,
+  "zoom": 0.5127672733728857,
   "branches": [
     {
       "name": "Epoch Progression",
@@ -39,20 +38,20 @@
     {
       "id": "sett",
       "name": "Settlement",
-      "x": 520,
-      "y": 150,
+      "x": 497.8021175611537,
+      "y": 103.13780374021337,
       "branch": "Settlement",
       "epoch": "Prehistoric",
       "type": "Building",
       "cost": "Built by starting villagers",
-      "notes": "First structure. Resource drop-off, initial population capacity, villager production, and epoch advancement.",
+      "notes": "First structure. Resource drop-off, initial population-cap bonus, villager production, and required to advance.",
       "deps": []
     },
     {
       "id": "stone",
       "name": "Advance to Stone Age",
-      "x": 520,
-      "y": 320,
+      "x": 494.05707036114467,
+      "y": 311.66120118751076,
       "branch": "Epoch Progression",
       "epoch": "Prehistoric",
       "type": "Epoch",
@@ -65,78 +64,22 @@
     {
       "id": "barr",
       "name": "Barracks",
-      "x": 1030,
+      "x": 1120,
       "y": 510,
       "branch": "Warfare",
       "epoch": "Stone Age",
       "type": "Building",
       "cost": "TBD",
-      "notes": "First dedicated land military structure.",
+      "notes": "First dedicated military structure.",
       "deps": [
         "stone"
-      ]
-    },
-    {
-      "id": "dock",
-      "name": "Simple Dock",
-      "x": 1810,
-      "y": 510,
-      "branch": "Naval",
-      "epoch": "Stone Age",
-      "type": "Building",
-      "cost": "TBD",
-      "notes": "Primitive coastal production building. Produces Fishing Raft, Transport Raft, and War Raft.",
-      "deps": [
-        "stone"
-      ]
-    },
-    {
-      "id": "fishingraft",
-      "name": "Fishing Raft",
-      "x": 1710,
-      "y": 690,
-      "branch": "Naval",
-      "epoch": "Stone Age",
-      "type": "Unit",
-      "cost": "TBD",
-      "notes": "Primitive fishing vessel.",
-      "deps": [
-        "dock"
-      ]
-    },
-    {
-      "id": "transportraft",
-      "name": "Transport Raft",
-      "x": 1905,
-      "y": 690,
-      "branch": "Naval",
-      "epoch": "Stone Age",
-      "type": "Unit",
-      "cost": "TBD",
-      "notes": "Primitive unit transport across water.",
-      "deps": [
-        "dock"
-      ]
-    },
-    {
-      "id": "warraft",
-      "name": "War Raft",
-      "x": 2100,
-      "y": 690,
-      "branch": "Naval",
-      "epoch": "Stone Age",
-      "type": "Unit",
-      "cost": "TBD",
-      "notes": "Primitive combat raft and the ancestor of later purpose-built war vessels.",
-      "deps": [
-        "dock"
       ]
     },
     {
       "id": "tools",
       "name": "Simple Stone Tools",
-      "x": 360,
-      "y": 510,
+      "x": 690.4182935208082,
+      "y": 485.4760576717708,
       "branch": "Economy & Tools",
       "epoch": "Stone Age",
       "type": "Technology",
@@ -149,8 +92,8 @@
     {
       "id": "axe",
       "name": "Stone Axe",
-      "x": 260,
-      "y": 690,
+      "x": 781.1265076362308,
+      "y": 649.5461660562489,
       "branch": "Economy & Tools",
       "epoch": "Stone Age",
       "type": "Technology",
@@ -163,13 +106,13 @@
     {
       "id": "woodcut",
       "name": "Woodcutting",
-      "x": 250,
-      "y": 870,
+      "x": 773.5443393556134,
+      "y": 794.895426619798,
       "branch": "Economy & Tools",
       "epoch": "Stone Age",
       "type": "Technology",
       "cost": "TBD",
-      "notes": "Villagers can harvest trees. Major structural timber use waits for Copper Age.",
+      "notes": "Villagers can now harvest trees. Major timber construction waits for Copper Age.",
       "deps": [
         "axe"
       ]
@@ -177,13 +120,13 @@
     {
       "id": "wood",
       "name": "Wood",
-      "x": 250,
-      "y": 1040,
+      "x": 423.76667082337656,
+      "y": 1159.9467851866466,
       "branch": "Resources",
       "epoch": "Stone Age",
       "type": "Resource",
       "cost": "Unlocked by Woodcutting",
-      "notes": "A newly exploitable map resource; modest Stone Age use and major Copper Age importance.",
+      "notes": "Useful modestly in Stone Age, much more important in Copper Age.",
       "deps": [
         "woodcut"
       ]
@@ -191,13 +134,13 @@
     {
       "id": "hide",
       "name": "Hide Working",
-      "x": 640,
-      "y": 510,
+      "x": 250.1017844873881,
+      "y": 433.3626802242836,
       "branch": "Survival",
       "epoch": "Stone Age",
       "type": "Technology",
       "cost": "TBD",
-      "notes": "Enables hunted animals to yield Leather in addition to Food.",
+      "notes": "Improves use of hunted animals and enables Leather recovery.",
       "deps": [
         "stone"
       ]
@@ -205,13 +148,13 @@
     {
       "id": "leather",
       "name": "Leather",
-      "x": 640,
-      "y": 690,
+      "x": 86.51496480925346,
+      "y": 580.6928679647561,
       "branch": "Resources",
       "epoch": "Stone Age",
       "type": "Resource",
       "cost": "Harvested from animals after Hide Working",
-      "notes": "Prehistoric hunting yields Food only; this makes hides usable.",
+      "notes": "Prehistoric hunting yields Food only. Stone Age knowledge makes hides useful.",
       "deps": [
         "hide"
       ]
@@ -219,13 +162,13 @@
     {
       "id": "leatherwork",
       "name": "Leatherworking",
-      "x": 690,
-      "y": 870,
+      "x": 64.05261714518782,
+      "y": 877.9192204355971,
       "branch": "Survival",
       "epoch": "Stone Age",
       "type": "Technology",
       "cost": "Leather + TBD",
-      "notes": "Turns hides into useful equipment and supports armour and sling technology.",
+      "notes": "Turns raw hides into useful equipment and enables armour/sling technology.",
       "deps": [
         "leather"
       ]
@@ -233,13 +176,13 @@
     {
       "id": "armor",
       "name": "Simple Leather Armour",
-      "x": 630,
-      "y": 1050,
+      "x": 211.70242095558353,
+      "y": 1044.1493926079436,
       "branch": "Survival",
       "epoch": "Stone Age",
       "type": "Upgrade",
       "cost": "Leather + TBD",
-      "notes": "Modest visible armour improvement for appropriate units.",
+      "notes": "Modest armour improvement, visually represented on appropriate units.",
       "deps": [
         "leatherwork"
       ]
@@ -247,7 +190,7 @@
     {
       "id": "club",
       "name": "Clubman",
-      "x": 940,
+      "x": 1000,
       "y": 690,
       "branch": "Warfare",
       "epoch": "Stone Age",
@@ -261,13 +204,13 @@
     {
       "id": "spear",
       "name": "Spearman",
-      "x": 1135,
-      "y": 690,
+      "x": 1253.351689039799,
+      "y": 687.1633572071732,
       "branch": "Warfare",
       "epoch": "Stone Age",
       "type": "Unit",
       "cost": "TBD",
-      "notes": "Primitive sharpened wooden spear with reach advantage.",
+      "notes": "Primitive sharpened wooden spear, with reach advantage.",
       "deps": [
         "barr"
       ]
@@ -275,8 +218,8 @@
     {
       "id": "thrower",
       "name": "Stone Thrower",
-      "x": 1330,
-      "y": 690,
+      "x": 1507.2479021035085,
+      "y": 627.59385855781,
       "branch": "Warfare",
       "epoch": "Stone Age",
       "type": "Unit",
@@ -289,8 +232,8 @@
     {
       "id": "points",
       "name": "Stone Points",
-      "x": 1010,
-      "y": 870,
+      "x": 1044.7293536165507,
+      "y": 849.8842530122057,
       "branch": "Economy & Tools",
       "epoch": "Stone Age",
       "type": "Technology",
@@ -303,8 +246,8 @@
     {
       "id": "pickaxe",
       "name": "Pickaxe",
-      "x": 890,
-      "y": 1040,
+      "x": 993.6745396608205,
+      "y": 1131.4843489130465,
       "branch": "Economy & Tools",
       "epoch": "Stone Age",
       "type": "Technology",
@@ -317,8 +260,8 @@
     {
       "id": "stonecut",
       "name": "Stone Cutting",
-      "x": 1040,
-      "y": 1040,
+      "x": 1292.4502879784416,
+      "y": 1073.6628981285737,
       "branch": "Construction",
       "epoch": "Stone Age",
       "type": "Technology",
@@ -331,13 +274,13 @@
     {
       "id": "stonespear",
       "name": "Stone-tipped Spears",
-      "x": 1190,
-      "y": 1050,
+      "x": 1419.6950098479383,
+      "y": 843.9560220484832,
       "branch": "Warfare",
       "epoch": "Stone Age",
       "type": "Upgrade",
       "cost": "Stone + Wood + TBD",
-      "notes": "Improves Spearmen with stone tips and better piercing performance.",
+      "notes": "Improves Spearmen with stone tips and better piercing damage.",
       "deps": [
         "spear",
         "points"
@@ -346,13 +289,13 @@
     {
       "id": "slingmake",
       "name": "Sling Making",
-      "x": 1435,
-      "y": 880,
+      "x": 1735.295976639993,
+      "y": 971.2486683384737,
       "branch": "Warfare",
       "epoch": "Stone Age",
       "type": "Technology",
       "cost": "Leather + Stone + TBD",
-      "notes": "Requires Leatherworking and upgrades Stone Throwers into Slingers.",
+      "notes": "Cross-branch tech requiring Leatherworking; enables Slinger upgrade.",
       "deps": [
         "thrower",
         "leatherwork"
@@ -361,8 +304,8 @@
     {
       "id": "slinger",
       "name": "Slinger",
-      "x": 1450,
-      "y": 1060,
+      "x": 1687.016976913522,
+      "y": 1187.9469679745696,
       "branch": "Warfare",
       "epoch": "Stone Age",
       "type": "Unit",
@@ -381,13 +324,13 @@
     {
       "id": "store",
       "name": "Improved Settlement Storage",
-      "x": 470,
-      "y": 700,
+      "x": 458.8962255111141,
+      "y": 541.8716328039988,
       "branch": "Settlement",
       "epoch": "Stone Age",
       "type": "Upgrade",
       "cost": "TBD",
-      "notes": "Small settlement storage improvement; separate Storage Camp waits for Copper Age.",
+      "notes": "Small settlement storage upgrade; no separate Storage Camp until Copper Age.",
       "deps": [
         "stone"
       ]
@@ -395,13 +338,13 @@
     {
       "id": "shelter",
       "name": "Improved Settlement Shelter",
-      "x": 470,
-      "y": 880,
+      "x": 458.75914763261056,
+      "y": 702.9303645438126,
       "branch": "Settlement",
       "epoch": "Stone Age",
       "type": "Upgrade",
       "cost": "TBD",
-      "notes": "Small settlement population/shelter improvement; Dedicated Housing waits for Copper Age.",
+      "notes": "Small settlement housing/pop-cap improvement. Dedicated housing waits for Copper Age.",
       "deps": [
         "store"
       ]
@@ -409,8 +352,8 @@
     {
       "id": "copper",
       "name": "Advance to Copper Age",
-      "x": 820,
-      "y": 1260,
+      "x": 727.347626758027,
+      "y": 1242.2252033753098,
       "branch": "Epoch Progression",
       "epoch": "Stone Age",
       "type": "Epoch",
@@ -425,22 +368,80 @@
     {
       "id": "copperRes",
       "name": "Copper",
-      "x": 500,
-      "y": 1450,
+      "x": 279.7921565509173,
+      "y": 1434.7754707210374,
       "branch": "Resources",
       "epoch": "Copper Age",
       "type": "Resource",
-      "cost": "Becomes strategically exploitable in Copper Age",
+      "cost": "Unlocked/exploitable in Copper Age",
       "notes": "New strategic resource that changes how the map is evaluated.",
       "deps": [
         "copper"
       ]
     },
     {
+      "id": "dock",
+      "name": "Simple Dock",
+      "x": 2117.8055888493222,
+      "y": 354.04516831634345,
+      "branch": "Naval",
+      "epoch": "Stone Age",
+      "type": "Building",
+      "cost": "TBD",
+      "notes": "Primitive coastal production building. Produces Fishing Raft, Transport Raft, and War Raft.",
+      "deps": [
+        "stone"
+      ]
+    },
+    {
+      "id": "fishingraft",
+      "name": "Fishing Raft",
+      "x": 1906.9955768635662,
+      "y": 671.5316646690407,
+      "branch": "Naval",
+      "epoch": "Stone Age",
+      "type": "Unit",
+      "cost": "TBD",
+      "notes": "Primitive fishing vessel.",
+      "deps": [
+        "dock"
+      ]
+    },
+    {
+      "id": "transportraft",
+      "name": "Transport Raft",
+      "x": 2163.5566946334307,
+      "y": 679.7398137050226,
+      "branch": "Naval",
+      "epoch": "Stone Age",
+      "type": "Unit",
+      "cost": "TBD",
+      "notes": "Primitive unit transport across water.",
+      "deps": [
+        "dock"
+      ],
+      "upgradeFrom": []
+    },
+    {
+      "id": "warraft",
+      "name": "War Raft",
+      "x": 2471.1357530157106,
+      "y": 670.9174472352897,
+      "branch": "Naval",
+      "epoch": "Stone Age",
+      "type": "Unit",
+      "cost": "TBD",
+      "notes": "Primitive combat raft and the ancestor of later purpose-built war vessels.",
+      "deps": [
+        "dock"
+      ],
+      "upgradeFrom": []
+    },
+    {
       "id": "workshop",
       "name": "Workshop",
-      "x": 820,
-      "y": 1450,
+      "x": 554.7506027320716,
+      "y": 1411.9993859901574,
       "branch": "Construction",
       "epoch": "Copper Age",
       "type": "Building",
@@ -453,8 +454,8 @@
     {
       "id": "timber",
       "name": "Timber Construction",
-      "x": 820,
-      "y": 1620,
+      "x": 506.2939475853548,
+      "y": 1602.3675193041774,
       "branch": "Construction",
       "epoch": "Copper Age",
       "type": "Technology",
@@ -467,8 +468,8 @@
     {
       "id": "timberframe",
       "name": "Timber Framing",
-      "x": 820,
-      "y": 1800,
+      "x": 385.8871098885849,
+      "y": 2009.5748294226205,
       "branch": "Construction",
       "epoch": "Copper Age",
       "type": "Upgrade",
@@ -481,8 +482,8 @@
     {
       "id": "housing",
       "name": "Dedicated Housing",
-      "x": 450,
-      "y": 1800,
+      "x": 205.39290871073925,
+      "y": 1653.5181891026125,
       "branch": "Settlement",
       "epoch": "Copper Age",
       "type": "Building",
@@ -495,8 +496,8 @@
     {
       "id": "storagecamp",
       "name": "Storage Camp",
-      "x": 450,
-      "y": 1980,
+      "x": 272.8489166202198,
+      "y": 1842.818367219418,
       "branch": "Construction",
       "epoch": "Copper Age",
       "type": "Building",
@@ -509,8 +510,8 @@
     {
       "id": "primag",
       "name": "Primitive Agriculture",
-      "x": 1090,
-      "y": 1620,
+      "x": 1037.3883571061244,
+      "y": 1762.2730875427676,
       "branch": "Survival",
       "epoch": "Copper Age",
       "type": "Technology",
@@ -523,8 +524,8 @@
     {
       "id": "granary",
       "name": "Granary",
-      "x": 1090,
-      "y": 1800,
+      "x": 650.1270199777188,
+      "y": 1870.1906901882187,
       "branch": "Construction",
       "epoch": "Copper Age",
       "type": "Building",
@@ -538,8 +539,8 @@
     {
       "id": "farm",
       "name": "Farm",
-      "x": 1090,
-      "y": 1980,
+      "x": 675.3862197605786,
+      "y": 2085.2730301389156,
       "branch": "Survival",
       "epoch": "Copper Age",
       "type": "Building",
@@ -552,8 +553,8 @@
     {
       "id": "simplebow",
       "name": "Simple Bow",
-      "x": 1450,
-      "y": 1620,
+      "x": 987.5184829794648,
+      "y": 1485.03457674498,
       "branch": "Warfare",
       "epoch": "Copper Age",
       "type": "Technology",
@@ -566,8 +567,8 @@
     {
       "id": "archery",
       "name": "Archery Range",
-      "x": 1450,
-      "y": 1800,
+      "x": 1237.9473048493167,
+      "y": 1521.2052763522,
       "branch": "Warfare",
       "epoch": "Copper Age",
       "type": "Building",
@@ -617,8 +618,8 @@
     {
       "id": "maceman",
       "name": "Maceman",
-      "x": 1910,
-      "y": 1620,
+      "x": 1249.5517631221087,
+      "y": 1327.028443593942,
       "branch": "Warfare",
       "epoch": "Copper Age",
       "type": "Upgrade",
@@ -632,8 +633,8 @@
     {
       "id": "animalhusb",
       "name": "Animal Husbandry",
-      "x": 1240,
-      "y": 1980,
+      "x": 1067.2051953696218,
+      "y": 1924.3161198910266,
       "branch": "Survival",
       "epoch": "Copper Age",
       "type": "Technology",
@@ -646,8 +647,8 @@
     {
       "id": "livestock",
       "name": "Livestock Pen",
-      "x": 1240,
-      "y": 2160,
+      "x": 1087.592069625315,
+      "y": 2168.531279983675,
       "branch": "Survival",
       "epoch": "Copper Age",
       "type": "Building",
@@ -661,83 +662,93 @@
     {
       "id": "fishingboat",
       "name": "Fishing Boat",
-      "x": 2010,
-      "y": 1800,
+      "x": 2008.4517713176624,
+      "y": 1623.5019302135017,
       "branch": "Naval",
       "epoch": "Copper Age",
       "type": "Upgrade",
       "cost": "TBD",
       "notes": "Copper-era timber replacement for Fishing Raft.",
       "deps": [
-        "timber",
+        "timber"
+      ],
+      "upgradeFrom": [
         "fishingraft"
       ]
     },
     {
       "id": "transport",
       "name": "Transport",
-      "x": 2205,
-      "y": 1800,
+      "x": 2191.0659418589607,
+      "y": 1775.2283410825967,
       "branch": "Naval",
       "epoch": "Copper Age",
       "type": "Upgrade",
       "cost": "TBD",
       "notes": "Copper-era timber replacement for Transport Raft.",
       "deps": [
-        "timber",
+        "timber"
+      ],
+      "upgradeFrom": [
         "transportraft"
       ]
     },
     {
       "id": "lightwar",
       "name": "Light War Boat",
-      "x": 2010,
-      "y": 1980,
+      "x": 2327.386879879229,
+      "y": 2088.3760077636393,
       "branch": "Naval",
       "epoch": "Copper Age",
       "type": "Unit",
       "cost": "TBD",
       "notes": "Fast, cheap and maneuverable, but fragile.",
       "deps": [
-        "timber",
+        "timber"
+      ],
+      "upgradeFrom": [
         "warraft"
       ]
     },
     {
       "id": "galley",
       "name": "Galley",
-      "x": 2205,
-      "y": 1980,
+      "x": 2565.7372829846845,
+      "y": 2023.3504031054558,
       "branch": "Naval",
       "epoch": "Copper Age",
       "type": "Unit",
       "cost": "TBD",
       "notes": "Flexible middle-ground combat vessel.",
       "deps": [
-        "timber",
+        "timber"
+      ],
+      "upgradeFrom": [
         "warraft"
       ]
     },
     {
       "id": "heavywar",
       "name": "Heavy War Boat",
-      "x": 2400,
-      "y": 1980,
+      "x": 2708.0975077852036,
+      "y": 1905.6850232477902,
       "branch": "Naval",
       "epoch": "Copper Age",
       "type": "Unit",
       "cost": "TBD",
       "notes": "Slower and expensive, but durable and powerful.",
       "deps": [
-        "timber",
+        "timber"
+      ],
+      "upgradeFrom": [
         "warraft"
       ]
     },
     {
       "id": "arrowmaking",
       "name": "Arrow Making",
-      "x": 1640,
-      "y": 1980,
+      "x": 1744.717096991782,
+      "y": 1671.9863351241095,
       "branch": "Warfare",
       "epoch": "Copper Age",
       "type": "Technology",
@@ -751,22 +762,36 @@
   ],
   "undefined": [
     {
-      "id": "sack",
-      "name": "Sack",
-      "branch": "Economy & Tools",
-      "epoch": "TBD",
-      "type": "Upgrade",
-      "cost": "TBD",
-      "notes": "Planned Villager upgrade: increases carrying capacity. Intended progression: Sack then Wheelbarrow. Bonus, cost, research time, epoch, research location and formal prerequisites TBD; not implemented in Prototype01."
+      "id": "liv8pm13",
+      "name": "Palisades",
+      "branch": "Construction",
+      "epoch": "Copper Age",
+      "type": "Building",
+      "notes": "First substantial defensive wall system."
     },
     {
-      "id": "wheelbarrow",
-      "name": "Wheelbarrow",
-      "branch": "Economy & Tools",
-      "epoch": "TBD",
+      "id": "izan8n73",
+      "name": "Gate",
+      "branch": "Construction",
+      "epoch": "Copper Age",
+      "type": "Building",
+      "notes": "Gate for palisades."
+    },
+    {
+      "id": "j8ixb0hr",
+      "name": "Improved Settlement",
+      "branch": "Settlement",
+      "epoch": "Copper Age",
       "type": "Upgrade",
-      "cost": "TBD",
-      "notes": "Planned Villager upgrade: further carrying-capacity increase plus movement-speed increase. Follows Sack conceptually; formal prerequisites remain TBD. Bonuses, cost, research time, epoch and research location TBD; not implemented in Prototype01."
+      "notes": "Copper-era settlement transformation."
+    },
+    {
+      "id": "36n563r0",
+      "name": "Terrain / Formation Bonuses",
+      "branch": "Warfare",
+      "epoch": "Future System",
+      "type": "Other",
+      "notes": "Possible lightweight combat modifiers; not part of the current slice."
     },
     {
       "id": "palisades",
@@ -839,7 +864,46 @@
       "type": "Other",
       "cost": "",
       "notes": "Potential lightweight combat modifiers; not part of the current prototype slice."
+    },
+    {
+      "id": "sack",
+      "name": "Sack",
+      "branch": "Economy & Tools",
+      "epoch": "TBD",
+      "type": "Upgrade",
+      "cost": "TBD",
+      "notes": "Planned Villager upgrade: increases carrying capacity. Intended progression: Sack then Wheelbarrow. Bonus, cost, research time, epoch, research location and formal prerequisites TBD; not implemented in Prototype01."
+    },
+    {
+      "id": "wheelbarrow",
+      "name": "Wheelbarrow",
+      "branch": "Economy & Tools",
+      "epoch": "TBD",
+      "type": "Upgrade",
+      "cost": "TBD",
+      "notes": "Planned Villager upgrade: further carrying-capacity increase plus movement-speed increase. Follows Sack conceptually; formal prerequisites remain TBD. Bonuses, cost, research time, epoch and research location TBD; not implemented in Prototype01."
     }
   ],
-  "canonicalRevision": 2
+  "schemaVersion": 7,
+  "canonicalRevision": 3,
+  "epochBands": [
+    {
+      "id": "prehistoric",
+      "name": "Prehistoric",
+      "label": "Epoch 0 — Prehistoric",
+      "y": 40
+    },
+    {
+      "id": "stone",
+      "name": "Stone Age",
+      "label": "Epoch I — Stone Age",
+      "y": 390
+    },
+    {
+      "id": "copper",
+      "name": "Copper Age",
+      "label": "Epoch II — Copper Age",
+      "y": 1300
+    }
+  ]
 }
