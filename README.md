@@ -43,3 +43,21 @@ The tree distinguishes two different kinds of links:
 - **Production obsolescence** uses `replacesProductionOf` so replacing an old trainable unit is explicit rather than inferred from prerequisites.
 
 Current ranged progression records Stone Thrower → Slinger and Stone Thrower/Slinger → Simple Bowman as upgrade paths. Slinger removes Stone Thrower from new production once available; Simple Bowman removes both Stone Thrower and Slinger from new production once available.
+
+## Epoch bands
+
+The editor stores movable horizontal epoch boundaries in `epochBands`.
+
+- Drag an epoch label vertically to move its boundary.
+- A placed node's `epoch` is assigned automatically from its vertical position.
+- Nodes between the Stone Age and Copper Age boundaries are labeled Stone Age; nodes below the Copper Age boundary are labeled Copper Age.
+- The epoch field in the node editor is therefore read-only for placed nodes.
+
+## Production replacement editing
+
+Production obsolescence can be authored in two ways:
+
+- Click **Connect Replacement**, then click the older unit followed by the replacing unit.
+- Or select the replacing node and use **Replaces in production → Choose older unit → Add**.
+
+This writes the older node ID into the replacing node's `replacesProductionOf` array.
