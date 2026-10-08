@@ -107,8 +107,8 @@ function updateSyncState(){
   el.dataset.dirty=dirty?'1':'0';
 }
 function persist(){
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(S));
   syncAllEpochs();
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(S));
   updateSyncState();
 }
 function stat(t){$('status').textContent=t;setTimeout(()=>$('status').textContent='Ready',1500)}
@@ -133,6 +133,7 @@ async function loadInitialState(){
   else if(canonicalState)S=cloneState(canonicalState);
   else if(local)S=ensureShape(local);
 
+  syncAllEpochs();
   updateSyncState();
 }
 let selected=null,cm=false,connectKind='dep',cs=null,drag=null,epochDrag=null;
@@ -245,7 +246,7 @@ $('editBtn').onclick=()=>{right.classList.toggle('open');left.classList.remove('
 wrap.addEventListener('pointerdown',e=>{if(innerWidth<=800&&e.target===wrap){left.classList.remove('open');right.classList.remove('open')}});
 let touchDrag=null;
 ws.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse')return;let d=e.target.closest('.node');if(!d)return;let n=S.nodes.find(q=>q.id===d.dataset.id);if(!n)return;if(cm){e.preventDefault();connect(n.id);return}selected=n.id;renderEd();ws.querySelectorAll('.node').forEach(q=>q.classList.toggle('sel',q.dataset.id===n.id));touchDrag={id:n.id,sx:e.clientX,sy:e.clientY,ox:n.x,oy:n.y,z:S.zoom||1,pid:e.pointerId};d.setPointerCapture?.(e.pointerId);e.preventDefault()});
-ws.addEventListener('pointermove',e=>{if(!touchDrag||e.pointerId!==touchDrag.pid)return;let n=S.nodes.find(q=>q.id===touchDrag.id);if(!n)return;n.x=Math.max(0,touchDrag.ox+(e.clientX-touchDrag.sx)/touchDrag.z);n.y=Math.max(0,touchDrag.oy+(e.clientY-touchDrag.sy)/touchDrag.z);syncNodeEpoch(n);let d=ws.querySelector(`.node[data-id='${n.id}']`);if(d){d.style.left=n.x+'px';d.style.top=n.y+'px'}draw();e.preventDefault()});
+ws.addEventListener('pointermove',e=>{if(!touchDrag||e.pointerId!==touchDrag.pid)return;let n=S.nodes.find(q=>q.id===touchDrag.id);if(!n)return;n.x=Math.max(0,touchDrag.ox+(e.clientX-touchDrag.sx)/touchDrag.z);n.y=Math.max(0,touchDrag.oy+(e.clientY-touchDrag.sy)/touchDrag.z);syncNodeEpoch(n);let d=ws.querySelector(`.node[data-id='${n.id}']`);if(d){d.style.left=n.x+'px';d.style.top=n.y+'px';let m=d.querySelector('.meta');if(m)m.textContent=`${n.type} · ${n.epoch}`}draw();e.preventDefault()});
 ws.addEventListener('pointerup',e=>{if(touchDrag&&e.pointerId===touchDrag.pid){touchDrag=null;persist()}});
 let pinch=null;
 wrap.addEventListener('touchstart',e=>{if(e.touches.length===2){let a=e.touches[0],b=e.touches[1];pinch={dist:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY),z:S.zoom||1}}},{passive:true});
