@@ -2,12 +2,34 @@
 
 GitHub Pages-ready PWA for designing the GameDev technology tree.
 
-## Publish
-1. Upload all files/folders in this repository.
-2. GitHub repository Settings → Pages.
-3. Source: **Deploy from a branch**.
-4. Branch: **main**, folder: **/(root)**, then Save.
-5. Open the published URL in Safari on iPhone.
-6. Share → Add to Home Screen → enable **Open as Web App** → Add.
+## Shared data model
 
-The app autosaves tree state to browser local storage and supports JSON export/import.
+The editor code and the civilization data are separate:
+
+- `app.js` contains the editor behavior.
+- `data/china-tech-tree.json` is the canonical shared China tree in the repository.
+- Browser `localStorage` remains the working autosave so in-progress edits are not lost.
+
+On startup the app loads the repository JSON, then restores the local working copy if one exists. Missing canonical nodes are merged into older local saves without overwriting locally edited nodes.
+
+The header shows whether the browser copy still has local changes that are not represented by the repository baseline.
+
+## Saving changes back to GitHub
+
+GitHub Pages cannot safely contain a personal access token, so the public app does not commit directly to the repository.
+
+1. Edit the tree normally. Changes autosave in the browser.
+2. Click **Export Snapshot** to download `china-tech-tree.json`.
+3. Commit that file to `data/china-tech-tree.json` in this repository, or provide it to a GameDev chat with GitHub access and ask it to sync the snapshot.
+4. Once the repository file is updated, all chats and devices can inspect the same canonical tree.
+
+**Reset to Repo** discards unsynced browser edits and reloads the repository baseline.
+
+## Publish
+
+1. Keep GitHub Pages set to **Deploy from a branch**.
+2. Branch: **main**, folder: **/(root)**.
+3. Open the published URL in Safari on iPhone.
+4. Share → Add to Home Screen → enable **Open as Web App** → Add.
+
+The service worker uses a network-first strategy for the canonical tree JSON so repository updates can propagate without embedding GitHub credentials.
