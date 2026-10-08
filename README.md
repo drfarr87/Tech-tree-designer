@@ -33,3 +33,13 @@ GitHub Pages cannot safely contain a personal access token, so the public app do
 4. Share → Add to Home Screen → enable **Open as Web App** → Add.
 
 The service worker uses a network-first strategy for the canonical tree JSON so repository updates can propagate without embedding GitHub credentials.
+
+## Relationship types
+
+The tree distinguishes two different kinds of links:
+
+- **Dependencies / unlocks** use `deps` and render as solid lines.
+- **Unit upgrade paths** use `upgradeFrom` and render as dashed arrowed lines.
+- **Production obsolescence** uses `replacesProductionOf` so replacing an old trainable unit is explicit rather than inferred from prerequisites.
+
+Current ranged progression records Stone Thrower → Slinger and Stone Thrower/Slinger → Simple Bowman as upgrade paths. Slinger removes Stone Thrower from new production once available; Simple Bowman removes both Stone Thrower and Slinger from new production once available.
