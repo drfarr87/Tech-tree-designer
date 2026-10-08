@@ -9,7 +9,7 @@ primag:'primag',granary:'granary',farm:'farm',simplebow:'simplebow',archery:'arc
 maceman:'maceman',animalhusb:'animalhusb',livestock:'livestock',fishingboat:'fishingboat',transport:'transport',
 lightwar:'lightwar',galley:'galley',heavywar:'heavywar'
 };function uid(){return Math.random().toString(36).slice(2,10)}
-const DEFAULT_STATE={schemaVersion:3,zoom:1,branches:[
+const DEFAULT_STATE={schemaVersion:4,zoom:1,branches:[
 {name:'Epoch Progression',color:'#a78bfa'},{name:'Settlement',color:'#60a5fa'},{name:'Economy & Tools',color:'#f59e0b'},
 {name:'Survival',color:'#34d399'},{name:'Warfare',color:'#ef6f6c'},{name:'Construction',color:'#c084fc'},
 {name:'Resources',color:'#94a3b8'},{name:'Naval',color:'#38bdf8'}
@@ -74,6 +74,8 @@ const DEFAULT_STATE={schemaVersion:3,zoom:1,branches:[
 {id:C.galley,name:'Galley',x:2205,y:1980,branch:'Naval',epoch:'Copper Age',type:'Unit',cost:'TBD',notes:'Flexible middle-ground combat vessel.',deps:[C.timber,C.warraft]},
 {id:C.heavywar,name:'Heavy War Boat',x:2400,y:1980,branch:'Naval',epoch:'Copper Age',type:'Unit',cost:'TBD',notes:'Slower and expensive, but durable and powerful.',deps:[C.timber,C.warraft]}
 ],undefined:[
+{id:'sack',name:'Sack',branch:'Economy & Tools',epoch:'TBD',type:'Upgrade',cost:'TBD',notes:'Planned Villager upgrade: increases carrying capacity. Intended progression: Sack then Wheelbarrow. Bonus, cost, research time, epoch, research location and formal prerequisites TBD; not implemented in Prototype01.'},
+{id:'wheelbarrow',name:'Wheelbarrow',branch:'Economy & Tools',epoch:'TBD',type:'Upgrade',cost:'TBD',notes:'Planned Villager upgrade: further carrying-capacity increase plus movement-speed increase. Follows Sack conceptually; formal prerequisites remain TBD. Bonuses, cost, research time, epoch and research location TBD; not implemented in Prototype01.'},
 {id:'palisades',name:'Palisades',branch:'Construction',epoch:'Copper Age',type:'Building',cost:'TBD',notes:'Copper-era defensive construction; exact prerequisites not yet locked.'},
 {id:'gate',name:'Gate',branch:'Construction',epoch:'Copper Age',type:'Building',cost:'TBD',notes:'Gate for early defensive systems; exact prerequisites not yet locked.'},
 {id:'improvedsett',name:'Improved Settlement',branch:'Settlement',epoch:'Copper Age',type:'Upgrade',cost:'TBD',notes:'Copper-era settlement transformation; exact position not yet locked.'},
@@ -102,6 +104,17 @@ function migrateState(saved){
     const uids=new Set(out.undefined.map(n=>n.id));
     for(const def of DEFAULT_STATE.undefined)if(!uids.has(def.id))out.undefined.push(cloneState(def));
     out.schemaVersion=3;
+  }
+  if((out.schemaVersion||0)<4){
+    out.undefined=out.undefined||[];
+    const all=out.nodes.concat(out.undefined);
+    for(const id of ['sack','wheelbarrow']){
+      const def=DEFAULT_STATE.undefined.find(n=>n.id===id);
+      if(!all.some(n=>n.id===id||String(n.name||'').trim().toLowerCase()===def.name.toLowerCase())){
+        out.undefined.push(cloneState(def));
+      }
+    }
+    out.schemaVersion=4;
   }
   return out;
 }
