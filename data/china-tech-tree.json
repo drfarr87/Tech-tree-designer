@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "zoom": 1,
   "branches": [
     {
@@ -281,7 +281,7 @@
       "epoch": "Stone Age",
       "type": "Unit",
       "cost": "TBD",
-      "notes": "First dedicated ranged land unit.",
+      "notes": "First dedicated ranged land unit. Once Slinger is unlocked, Stone Thrower is removed from new production; existing Stone Throwers may upgrade into Slingers or, later, directly into Simple Bowmen.",
       "deps": [
         "barr"
       ]
@@ -365,11 +365,17 @@
       "y": 1060,
       "branch": "Warfare",
       "epoch": "Stone Age",
-      "type": "Upgrade",
+      "type": "Unit",
       "cost": "Per-unit upgrade TBD",
-      "notes": "Upgraded Stone Thrower with better ranged performance.",
+      "notes": "Improved Stone Age ranged unit unlocked by Sling Making. Existing Stone Throwers may upgrade into Slingers; once Slinger is available, Stone Thrower is removed from new production.",
       "deps": [
         "slingmake"
+      ],
+      "upgradeFrom": [
+        "thrower"
+      ],
+      "replacesProductionOf": [
+        "thrower"
       ]
     },
     {
@@ -581,9 +587,17 @@
       "epoch": "Copper Age",
       "type": "Unit",
       "cost": "Per-unit upgrade / training cost TBD",
-      "notes": "Dedicated Copper Age ranged infantry trained from the Archery Range. Replaces Stone Thrower/Slinger production; existing Stone Throwers and Slingers can upgrade directly into Simple Bowmen.",
+      "notes": "Dedicated Copper Age ranged infantry trained from the Archery Range. Existing Stone Throwers and Slingers can upgrade directly into Simple Bowmen; once Simple Bowman is available, both older ranged classes are removed from new production.",
       "deps": [
         "archery"
+      ],
+      "upgradeFrom": [
+        "thrower",
+        "slinger"
+      ],
+      "replacesProductionOf": [
+        "thrower",
+        "slinger"
       ]
     },
     {
@@ -827,5 +841,5 @@
       "notes": "Potential lightweight combat modifiers; not part of the current prototype slice."
     }
   ],
-  "canonicalRevision": 1
+  "canonicalRevision": 2
 }
