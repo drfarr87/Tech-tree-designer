@@ -212,7 +212,84 @@ function focusSearchMatch(){
   stat(matches.length>1?`Focused ${n.name} (${matches.length} matches)`:`Focused ${n.name}`);
 }
 const bObj=n=>S.branches.find(b=>b.name===n),bCol=n=>(bObj(n)||{color:'#738096'}).color,cl=(v,a,b)=>Math.min(b,Math.max(a,v));function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}function zoom(z,cx=null,cy=null){let old=S.zoom||1;z=cl(z,.35,2.3);if(cx!==null){let wx=(wrap.scrollLeft+cx)/old,wy=(wrap.scrollTop+cy)/old;S.zoom=z;applyZoom();wrap.scrollLeft=wx*z-cx;wrap.scrollTop=wy*z-cy}else{S.zoom=z;applyZoom()}persist()}function applyZoom(){let z=S.zoom||1;scale.style.transform=`scale(${z})`;scale.style.width=(WORKSPACE_WIDTH*z)+'px';scale.style.height=(WORKSPACE_HEIGHT*z)+'px';$('zl').textContent=Math.round(z*100)+'%'}
-function render(){renderBranches();renderU();renderNodes();renderEd();applyZoom();persist()}function renderBranches(){let e=$('branches');e.innerHTML='';S.branches.forEach(b=>{let r=document.createElement('div');r.className='br';let c=document.createElement('input');c.type='color';c.value=b.color;c.className='color';c.addEventListener('input',()=>{b.color=c.value;renderNodes();renderU();persist()});let n=document.createElement('span');n.textContent=b.name;n.style.fontSize='12px';let x=document.createElement('button');x.textContent='×';x.onclick=()=>{if(S.nodes.some(q=>q.branch===b.name)||S.undefined.some(q=>q.branch===b.name)){alert('Move nodes out of this branch first.');return}S.branches=S.branches.filter(q=>q!==b);render()};r.append(c,n,x);e.appendChild(r)})}function renderU(){let e=$('undefs');e.innerHTML='';S.undefined.forEach(n=>{let d=document.createElement('div');d.className='undef';d.draggable=true;d.style.borderLeftColor=bCol(n.branch);d.innerHTML=`<strong>${esc(n.name)}</strong><span>${esc(n.epoch)} · ${esc(n.branch)}</span>`;d.addEventListener('dragstart',ev=>ev.dataTransfer.setData('text/u',n.id));e.appendChild(d)})}
+function render(){renderBranches();renderEpochManager();renderU();renderNodes();renderEd();applyZoom();persist()}function renderBranches(){let e=$('branches');e.innerHTML='';S.branches.forEach(b=>{let r=document.createElement('div');r.className='br';let c=document.createElement('input');c.type='color';c.value=b.color;c.className='color';c.addEventListener('input',()=>{b.color=c.value;renderNodes();renderU();persist()});let n=document.createElement('span');n.textContent=b.name;n.style.fontSize='12px';let x=document.createElement('button');x.textContent='×';x.onclick=()=>{if(S.nodes.some(q=>q.branch===b.name)||S.undefined.some(q=>q.branch===b.name)){alert('Move nodes out of this branch first.');return}S.branches=S.branches.filter(q=>q!==b);render()};r.append(c,n,x);e.appendChild(r)})}
+function renderEpochManager(){
+  const e=$('epochs');if(!e)return;e.innerHTML='';
+  const bands=orderedEpochBands();
+  bands.forEach((b,idx)=>{
+    const r=document.createElement('div');r.className='epoch-row';
+
+    const main=document.createElement('div');main.className='epoch-row-main';
+    const name=document.createElement('input');name.value=b.name;name.title='Epoch name used by nodes';
+    const label=document.createElement('input');label.value=b.label||b.name;label.title='Label shown on the grid';
+    main.append(name,label);
+
+    const controls=document.createElement('div');controls.className='epoch-row-controls';
+    const y=document.createElement('input');y.type='number';y.min='0';y.max=String(WORKSPACE_HEIGHT-120);y.step='10';y.value=Math.round(b.y);y.title='Boundary Y position';
+
+    const up=document.createElement('button');up.textContent='↑';up.title='Move epoch earlier';
+    up.disabled=idx===0;
+    up.onclick=()=>{if(idx===0)return;const prev=bands[idx-1];const t=prev.y;prev.y=b.y;b.y=t;render()};
+
+    const down=document.createElement('button');down.textContent='↓';down.title='Move epoch later';
+    down.disabled=idx===bands.length-1;
+    down.onclick=()=>{if(idx===bands.length-1)return;const next=bands[idx+1];const t=next.y;next.y=b.y;b.y=t;render()};
+
+    const del=document.createElement('button');del.textContent='×';del.className='epoch-delete';del.title='Remove epoch';
+    del.disabled=bands.length<=1;
+    del.onclick=()=>{
+      if(bands.length<=1){alert('At least one epoch must remain.');return}
+      const placed=S.nodes.filter(n=>n.epoch===b.name).length;
+      const undef=S.undefined.filter(n=>n.epoch===b.name).length;
+      const msg='Remove "'+b.name+'"?'
+        +(placed?('\n\n'+placed+' placed node'+(placed===1?'':'s')+' currently belong to this epoch. They will be reassigned automatically from their vertical position.'):'')
+        +(undef?('\n\n'+undef+' undefined node'+(undef===1?'':'s')+' use this epoch. Their epoch will be changed to TBD.'):'');
+      if(!confirm(msg))return;
+      S.epochBands=S.epochBands.filter(x=>x.id!==b.id);
+      for(const n of S.undefined)if(n.epoch===b.name)n.epoch='TBD';
+      syncAllEpochs();
+      render();
+    };
+
+    name.addEventListener('change',()=>{
+      const next=name.value.trim();
+      if(!next){name.value=b.name;return}
+      if(S.epochBands.some(x=>x.id!==b.id&&x.name.toLowerCase()===next.toLowerCase())){
+        alert('Epoch names must be unique.');name.value=b.name;return
+      }
+      const old=b.name;b.name=next;
+      if(!b.label||b.label===old)b.label=next;
+      for(const n of S.undefined)if(n.epoch===old)n.epoch=next;
+      syncAllEpochs();render();
+    });
+
+    label.addEventListener('change',()=>{b.label=label.value.trim()||b.name;render()});
+    y.addEventListener('change',()=>{
+      const v=Number(y.value);
+      if(!Number.isFinite(v)){y.value=Math.round(b.y);return}
+      b.y=cl(v,0,WORKSPACE_HEIGHT-120);
+      syncAllEpochs();render();
+    });
+
+    controls.append(y,up,down,del);
+    r.append(main,controls);
+    e.appendChild(r);
+  });
+}
+function addEpoch(){
+  const nameInput=$('epochName'),labelInput=$('epochLabel');
+  const name=(nameInput?.value||'').trim();
+  if(!name){alert('Enter an epoch name first.');nameInput?.focus();return}
+  if(S.epochBands.some(b=>b.name.toLowerCase()===name.toLowerCase())){alert('That epoch already exists.');return}
+  const bands=orderedEpochBands();
+  const last=bands[bands.length-1];
+  const y=cl(last?last.y+700:40,0,WORKSPACE_HEIGHT-120);
+  S.epochBands.push({id:uid(),name,label:(labelInput?.value||'').trim()||name,y});
+  if(nameInput)nameInput.value='';
+  if(labelInput)labelInput.value='';
+  syncAllEpochs();render();
+}
+function renderU(){let e=$('undefs');e.innerHTML='';S.undefined.forEach(n=>{let d=document.createElement('div');d.className='undef';d.draggable=true;d.style.borderLeftColor=bCol(n.branch);d.innerHTML=`<strong>${esc(n.name)}</strong><span>${esc(n.epoch)} · ${esc(n.branch)}</span>`;d.addEventListener('dragstart',ev=>ev.dataTransfer.setData('text/u',n.id));e.appendChild(d)})}
 ws.addEventListener('dragover',e=>e.preventDefault());ws.addEventListener('drop',e=>{e.preventDefault();let id=e.dataTransfer.getData('text/u'),it=S.undefined.find(n=>n.id===id);if(!it)return;let r=ws.getBoundingClientRect(),z=S.zoom||1;let placed={...it,x:(e.clientX-r.left)/z-95,y:(e.clientY-r.top)/z-40,deps:[]};syncNodeEpoch(placed);S.nodes.push(placed);S.undefined=S.undefined.filter(n=>n.id!==id);render()});wrap.addEventListener('wheel',e=>{e.preventDefault();let r=wrap.getBoundingClientRect();zoom((S.zoom||1)*(e.deltaY<0?1.1:.9),e.clientX-r.left,e.clientY-r.top)},{passive:false});
 let canvasPan=null;
 wrap.style.cursor='grab';
@@ -363,7 +440,7 @@ function renderEd(){let n=S.nodes.find(q=>q.id===selected);if(!n){$('ed').style.
 }
 $('apply').onclick=()=>{let n=S.nodes.find(q=>q.id===selected);if(!n)return;n.name=$('ename').value.trim()||'Untitled';n.branch=$('ebr').value;n.type=$('etype').value;n.cost=$('ecost').value.trim();n.notes=$('enotes').value;render()};$('moveU').onclick=()=>{let n=S.nodes.find(q=>q.id===selected);if(!n)return;S.undefined.push({...n});delete S.undefined[S.undefined.length-1].x;delete S.undefined[S.undefined.length-1].y;delete S.undefined[S.undefined.length-1].deps;S.nodes=S.nodes.filter(q=>q.id!==selected);S.nodes.forEach(q=>{q.deps=(q.deps||[]).filter(d=>d!==selected);q.upgradeFrom=(q.upgradeFrom||[]).filter(d=>d!==selected);q.replacesProductionOf=(q.replacesProductionOf||[]).filter(d=>d!==selected)});selected=null;selectedIds.clear();render()};$('newN').onclick=()=>{let z=S.zoom||1,n={id:uid(),name:'New Node',x:(wrap.scrollLeft+wrap.clientWidth/2)/z,y:(wrap.scrollTop+wrap.clientHeight/2)/z,branch:S.branches[0].name,epoch:'',type:'Technology',cost:'',notes:'',deps:[]};syncNodeEpoch(n);S.nodes.push(n);selected=n.id;selectedIds.clear();selectedIds.add(n.id);render()};$('newU').onclick=()=>{let n=prompt('Undefined node name:','New Idea');if(n){S.undefined.push({id:uid(),name:n,branch:S.branches[0].name,epoch:'',type:'Technology',cost:'',notes:''});render()}};$('conn').onclick=()=>{cm=!cm;connectKind='dep';cs=null;$('conn').textContent=cm?'Cancel Connect':'Connect';$('connUp').textContent='Connect Upgrade'};$('connUp').onclick=()=>{cm=!cm;connectKind='upgrade';cs=null;$('connUp').textContent=cm?'Cancel Upgrade':'Connect Upgrade';$('conn').textContent='Connect';$('connReplace').textContent='Connect Replacement'};
 $('connReplace').onclick=()=>{cm=!cm;connectKind='replace';cs=null;$('connReplace').textContent=cm?'Cancel Replacement':'Connect Replacement';$('conn').textContent='Connect';$('connUp').textContent='Connect Upgrade'};
-$('addReplace').onclick=()=>{let n=S.nodes.find(q=>q.id===selected),id=$('replaceSelect').value;if(!n||!id)return;n.replacesProductionOf=n.replacesProductionOf||[];if(!n.replacesProductionOf.includes(id))n.replacesProductionOf.push(id);render()};$('del').onclick=()=>{if(!selected)return;let n=S.nodes.find(q=>q.id===selected);if(!confirm(`Delete "${n.name}"?`))return;S.nodes=S.nodes.filter(q=>q.id!==selected);S.nodes.forEach(q=>{q.deps=(q.deps||[]).filter(d=>d!==selected);q.upgradeFrom=(q.upgradeFrom||[]).filter(d=>d!==selected);q.replacesProductionOf=(q.replacesProductionOf||[]).filter(d=>d!==selected)});selected=null;selectedIds.clear();render()};$('addB').onclick=()=>{let n=$('bn').value.trim();if(n&&!S.branches.some(b=>b.name===n)){S.branches.push({name:n,color:$('bc').value});$('bn').value='';render()}};$('zp').onclick=()=>zoom((S.zoom||1)*1.15);$('zm').onclick=()=>zoom((S.zoom||1)/1.15);$('z100').onclick=()=>zoom(1);$('fit').onclick=()=>{if(!S.nodes.length)return;let minx=Math.min(...S.nodes.map(n=>n.x)),maxx=Math.max(...S.nodes.map(n=>n.x+195)),miny=Math.min(...S.nodes.map(n=>n.y)),maxy=Math.max(...S.nodes.map(n=>n.y+90)),z=cl(Math.min(wrap.clientWidth/(maxx-minx+140),wrap.clientHeight/(maxy-miny+140)),.35,1.25);S.zoom=z;applyZoom();wrap.scrollLeft=(minx-70)*z;wrap.scrollTop=(miny-70)*z;persist()};$('save').onclick=()=>{let b=new Blob([JSON.stringify(S,null,2)+'\n'],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='china-tech-tree.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);stat('Snapshot exported')};$('load').onclick=()=>$('file').click();$('file').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let p=JSON.parse(await f.text());if(!p.nodes||!p.branches)throw 0;S=canonicalState?mergeCanonicalIntoLocal(p,canonicalState):ensureShape(p);selected=null;selectedIds.clear();render();stat('Snapshot loaded')}catch{alert('Invalid save file')}};
+$('addReplace').onclick=()=>{let n=S.nodes.find(q=>q.id===selected),id=$('replaceSelect').value;if(!n||!id)return;n.replacesProductionOf=n.replacesProductionOf||[];if(!n.replacesProductionOf.includes(id))n.replacesProductionOf.push(id);render()};$('del').onclick=()=>{if(!selected)return;let n=S.nodes.find(q=>q.id===selected);if(!confirm(`Delete "${n.name}"?`))return;S.nodes=S.nodes.filter(q=>q.id!==selected);S.nodes.forEach(q=>{q.deps=(q.deps||[]).filter(d=>d!==selected);q.upgradeFrom=(q.upgradeFrom||[]).filter(d=>d!==selected);q.replacesProductionOf=(q.replacesProductionOf||[]).filter(d=>d!==selected)});selected=null;selectedIds.clear();render()};$('addB').onclick=()=>{let n=$('bn').value.trim();if(n&&!S.branches.some(b=>b.name===n)){S.branches.push({name:n,color:$('bc').value});$('bn').value='';render()}};$('addEpoch').onclick=addEpoch;$('epochName').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addEpoch()}});$('epochLabel').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addEpoch()}});$('zp').onclick=()=>zoom((S.zoom||1)*1.15);$('zm').onclick=()=>zoom((S.zoom||1)/1.15);$('z100').onclick=()=>zoom(1);$('fit').onclick=()=>{if(!S.nodes.length)return;let minx=Math.min(...S.nodes.map(n=>n.x)),maxx=Math.max(...S.nodes.map(n=>n.x+195)),miny=Math.min(...S.nodes.map(n=>n.y)),maxy=Math.max(...S.nodes.map(n=>n.y+90)),z=cl(Math.min(wrap.clientWidth/(maxx-minx+140),wrap.clientHeight/(maxy-miny+140)),.35,1.25);S.zoom=z;applyZoom();wrap.scrollLeft=(minx-70)*z;wrap.scrollTop=(miny-70)*z;persist()};$('save').onclick=()=>{let b=new Blob([JSON.stringify(S,null,2)+'\n'],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='china-tech-tree.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);stat('Snapshot exported')};$('load').onclick=()=>$('file').click();$('file').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let p=JSON.parse(await f.text());if(!p.nodes||!p.branches)throw 0;S=canonicalState?mergeCanonicalIntoLocal(p,canonicalState):ensureShape(p);selected=null;selectedIds.clear();render();stat('Snapshot loaded')}catch{alert('Invalid save file')}};
 $('searchInput').addEventListener('input',refreshSearchHighlights);
 $('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();focusSearchMatch()}});
 $('searchBtn').onclick=focusSearchMatch;
