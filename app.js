@@ -196,9 +196,15 @@ function renderEpochBands(){
     h.className='epoch-handle';
     h.textContent=b.label||b.name;
     h.title='Drag vertically to move this epoch boundary';
-    h.addEventListener('pointerdown',e=>{
+    h.addEventListener('mousedown',e=>{
+      if(e.button!==0)return;
       e.preventDefault();e.stopPropagation();
-      epochDrag={id:b.id,pid:e.pointerId,sy:e.clientY,oy:b.y,z:S.zoom||1};
+      epochDrag={id:b.id,mode:'mouse',sy:e.clientY,oy:b.y,z:S.zoom||1};
+    });
+    h.addEventListener('pointerdown',e=>{
+      if(e.pointerType==='mouse')return;
+      e.preventDefault();e.stopPropagation();
+      epochDrag={id:b.id,mode:'pointer',pid:e.pointerId,sy:e.clientY,oy:b.y,z:S.zoom||1};
       h.setPointerCapture?.(e.pointerId);
     });
     line.appendChild(h);
@@ -207,8 +213,22 @@ function renderEpochBands(){
 }
 function renderNodes(){ws.querySelectorAll('.node').forEach(n=>n.remove());renderEpochBands();S.nodes.forEach(n=>{let d=document.createElement('div'),c=bCol(n.branch);d.className='node'+(selected===n.id?' sel':'');d.dataset.id=n.id;d.style.left=n.x+'px';d.style.top=n.y+'px';d.style.borderColor=c;d.innerHTML=`<div class='title'>${esc(n.name)}</div><div class='meta'>${esc(n.type)} · ${esc(n.epoch)}</div><div class='tag' style='color:${c};border-color:${c}88'>${esc(n.branch)}</div>${n.cost?`<div class='cost'>${esc(n.cost)}</div>`:''}`;d.onmousedown=e=>{if(e.button!==0)return;if(cm){e.preventDefault();connect(n.id);return}selected=n.id;renderEd();ws.querySelectorAll('.node').forEach(q=>q.classList.toggle('sel',q.dataset.id===n.id));drag={id:n.id,sx:e.clientX,sy:e.clientY,ox:n.x,oy:n.y,z:S.zoom||1}};ws.appendChild(d)});draw()}
 document.addEventListener('mousemove',e=>{if(!drag)return;let n=S.nodes.find(q=>q.id===drag.id);if(!n)return;n.x=Math.max(0,drag.ox+(e.clientX-drag.sx)/drag.z);n.y=Math.max(0,drag.oy+(e.clientY-drag.sy)/drag.z);syncNodeEpoch(n);let d=ws.querySelector(`.node[data-id='${n.id}']`);if(d){d.style.left=n.x+'px';d.style.top=n.y+'px';let m=d.querySelector('.meta');if(m)m.textContent=`${n.type} · ${n.epoch}`}draw()});document.addEventListener('mouseup',()=>{if(drag){drag=null;persist()}});
+document.addEventListener('mousemove',e=>{
+  if(!epochDrag||epochDrag.mode!=='mouse')return;
+  const band=S.epochBands.find(b=>b.id===epochDrag.id);if(!band)return;
+  const ordered=orderedEpochBands(),idx=ordered.findIndex(b=>b.id===band.id);
+  const min=idx>0?ordered[idx-1].y+120:0;
+  const max=idx<ordered.length-1?ordered[idx+1].y-120:2380;
+  band.y=cl(epochDrag.oy+(e.clientY-epochDrag.sy)/epochDrag.z,min,max);
+  const line=ws.querySelector(`.epoch-line[data-epoch-id="${band.id}"]`);if(line)line.style.top=band.y+'px';
+  syncAllEpochs();refreshNodeEpochMeta();
+  e.preventDefault();
+});
+document.addEventListener('mouseup',()=>{
+  if(epochDrag&&epochDrag.mode==='mouse'){epochDrag=null;persist()}
+});
 document.addEventListener('pointermove',e=>{
-  if(!epochDrag||e.pointerId!==epochDrag.pid)return;
+  if(!epochDrag||epochDrag.mode!=='pointer'||e.pointerId!==epochDrag.pid)return;
   const band=S.epochBands.find(b=>b.id===epochDrag.id);if(!band)return;
   const ordered=orderedEpochBands(),idx=ordered.findIndex(b=>b.id===band.id);
   const min=idx>0?ordered[idx-1].y+120:0;
@@ -219,7 +239,7 @@ document.addEventListener('pointermove',e=>{
   e.preventDefault();
 });
 function endEpochDrag(e){
-  if(!epochDrag)return;
+  if(!epochDrag||epochDrag.mode!=='pointer')return;
   if(e&&e.pointerId!==undefined&&e.pointerId!==epochDrag.pid)return;
   epochDrag=null;persist();
 }
