@@ -44,3 +44,12 @@
 
 .selection-box{position:absolute;border:1px solid var(--a);background:#7aa2f726;z-index:4;pointer-events:none;border-radius:4px}
 .node.sel{outline:2px solid var(--a);outline-offset:2px;box-shadow:0 0 0 3px #7aa2f722,0 6px 18px #0006}
+
+.search-wrap{display:flex;align-items:center;gap:6px;min-width:260px;max-width:360px}
+.search-wrap input{width:180px;padding:7px 9px}
+.search-count{min-width:18px;font-size:10px;color:var(--m)}
+.node.search-hit{box-shadow:0 0 0 3px #f8d66d66,0 0 22px #f8d66d55,0 6px 18px #0006}
+.node.search-focus{animation:searchPulse .55s ease-in-out 2}
+@keyframes searchPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+@media(max-width:1000px){.search-wrap{min-width:210px}.search-wrap input{width:140px}}
+@media(max-width:800px){.search-wrap{display:none}}
