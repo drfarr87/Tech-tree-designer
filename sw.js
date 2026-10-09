@@ -1,5 +1,5 @@
-const CACHE='tech-tree-v10';
-const ASSETS=['./','./index.html','./style.css','./app.js?v=10','./manifest.webmanifest','./data/china-tech-tree.json','./icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png'];
+const CACHE='tech-tree-v11';
+const ASSETS=['./','./index.html','./style.css','./app.js?v=11','./manifest.webmanifest','./data/china-tech-tree.json','./icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{
