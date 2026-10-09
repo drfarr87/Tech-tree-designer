@@ -32,10 +32,12 @@
 
 #edges{z-index:0}
 .node{z-index:2}
-.epoch-line{position:absolute;left:0;width:3600px;height:1px;border-top:2px dashed #6f7e91;z-index:1;pointer-events:none;opacity:.9}
-.epoch-handle{position:absolute;left:14px;top:-16px;min-width:210px;padding:7px 10px;border:1px solid #647286;border-radius:8px;background:#151a22e8;color:#d2dbe7;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;cursor:ns-resize;pointer-events:auto;user-select:none;touch-action:none}
-.epoch-handle:hover{border-color:var(--a)}
+.epoch-line{position:absolute;left:0;width:3600px;height:0;border-top:3px solid #8fa1b8;z-index:1;pointer-events:none;opacity:.95;box-shadow:0 1px 0 #0008}
+.epoch-handle{position:absolute;left:18px;top:-18px;min-width:230px;padding:8px 12px;border:1px solid #7f91a8;border-radius:8px;background:#17202bea;color:#f0f4f8;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;cursor:ns-resize;pointer-events:auto;user-select:none;touch-action:none;box-shadow:0 3px 10px #0008}
+.epoch-handle:hover{border-color:var(--a);background:#202a38}
 .auto-label{font-weight:400;text-transform:none;letter-spacing:0;color:#78879a;margin-left:4px}
 .rel-add{margin-top:7px}
 .rel-add select{min-width:0}
 @media(max-width:800px){#connReplace{display:none}.epoch-handle{min-width:180px;font-size:10px}}
+
+.epoch-line::after{content:"";position:absolute;left:0;top:-1px;width:3600px;height:1px;background:#ffffff22;pointer-events:none}
