@@ -1,5 +1,5 @@
 {
-  "zoom": 0.5127672733728857,
+  "zoom": 0.42350000000000004,
   "branches": [
     {
       "name": "Epoch Progression",
@@ -553,8 +553,8 @@
     {
       "id": "simplebow",
       "name": "Simple Bow",
-      "x": 987.5184829794648,
-      "y": 1485.03457674498,
+      "x": 977.8622583574428,
+      "y": 1439.9721951755441,
       "branch": "Warfare",
       "epoch": "Copper Age",
       "type": "Technology",
@@ -626,7 +626,12 @@
       "cost": "Copper + TBD",
       "notes": "Workshop research that upgrades the Clubman line with bronze mace equipment; Chinese visuals can remain culturally specific.",
       "deps": [
-        "workshop",
+        "workshop"
+      ],
+      "upgradeFrom": [
+        "club"
+      ],
+      "replacesProductionOf": [
         "club"
       ]
     },
@@ -674,6 +679,9 @@
       ],
       "upgradeFrom": [
         "fishingraft"
+      ],
+      "replacesProductionOf": [
+        "fishingraft"
       ]
     },
     {
@@ -690,6 +698,9 @@
         "timber"
       ],
       "upgradeFrom": [
+        "transportraft"
+      ],
+      "replacesProductionOf": [
         "transportraft"
       ]
     },
@@ -708,6 +719,9 @@
       ],
       "upgradeFrom": [
         "warraft"
+      ],
+      "replacesProductionOf": [
+        "warraft"
       ]
     },
     {
@@ -725,6 +739,9 @@
       ],
       "upgradeFrom": [
         "warraft"
+      ],
+      "replacesProductionOf": [
+        "warraft"
       ]
     },
     {
@@ -741,6 +758,9 @@
         "timber"
       ],
       "upgradeFrom": [
+        "warraft"
+      ],
+      "replacesProductionOf": [
         "warraft"
       ]
     },
